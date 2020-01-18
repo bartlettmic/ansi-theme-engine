@@ -1,9 +1,9 @@
 #!/usr/bin/bash
-nitrogen --random --set-zoom-fill --save
-SCRIPT_DIR="`dirname ${BASH_SOURCE}`"
+[ -z "$1" ] && nitrogen --random --set-zoom-fill --save
+SCRIPT_DIR="$(dirname $(readlink -f ${BASH_SOURCE}))"
 cd $SCRIPT_DIR
 CURRENT_PAPER="$(grep  "file" $HOME/.config/nitrogen/bg-saved.cfg | sed 's/file=//')"
-COLOR_BIN="./image-segmentation/kmeans-ansi-palette"
+COLOR_BIN="$SCRIPT_DIR/kmeans-colors/kmeans-ansi-palette"
 COLOR_FILE="$HOME/.config/kitty/color.conf"
 XRESC_FILE="$SCRIPT_DIR/Xresources"
 
@@ -21,4 +21,4 @@ printf "background\t$(cat $COLOR_FILE | grep color0 | cut -f 2)\n" >> $COLOR_FIL
 
 kitty @ --to=unix:/tmp/.kitty set-colors --all "$COLOR_FILE"
 
-rm input.png output.png
+# rm input.png output.png
