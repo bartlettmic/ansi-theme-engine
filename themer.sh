@@ -19,6 +19,6 @@ xrdb -merge $XRESC_FILE
 printf "foreground\t$(cat $COLOR_FILE | grep color15 | cut -f 2)\n" >> $COLOR_FILE
 printf "background\t$(cat $COLOR_FILE | grep color0 | cut -f 2)\n" >> $COLOR_FILE
 
-kitty @ --to=unix:/tmp/.kitty set-colors --all "$COLOR_FILE"
+kitty @ --to=unix:/tmp/.kitty set-colors --all --configured "$COLOR_FILE"
 
 # rm input.png output.png
