@@ -1,5 +1,5 @@
 #!/usr/bin/bash
-[ -z "$1" ] && nitrogen --random --set-zoom-fill --save
+[ -z "$1" ] && nitrogen --random --set-zoom-fill --save 2>/dev/null
 SCRIPT_DIR="$(dirname $(readlink -f ${BASH_SOURCE}))"
 cd $SCRIPT_DIR
 CURRENT_PAPER="$(grep  "file" $HOME/.config/nitrogen/bg-saved.cfg | sed 's/file=//')"
@@ -20,7 +20,7 @@ printf "background\t$(cat $COLOR_FILE | grep color0 | cut -f 2)\n" | tee -a $COL
 
 kitty @ --to=unix:/tmp/.kitty set-colors --all --configured "$COLOR_FILE"
 xrdb -merge $XRESC_FILE
-# rm input.png output.png
+rm input.png output.png
 
 : '
 function luminanace(r, g, b) {
