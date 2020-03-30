@@ -17,6 +17,8 @@ cat $COLOR_FILE | grep color | awk '{print "*" $1 ": " $2}' > $XRESC_FILE
     
 printf "foreground\t$(cat $COLOR_FILE | grep color15 | cut -f 2)\n" | tee -a $COLOR_FILE | awk '{print "*" $1 ": " $2}' >> $XRESC_FILE
 printf "background\t$(cat $COLOR_FILE | grep color0 | cut -f 2)\n" | tee -a $COLOR_FILE | awk '{print "*" $1 ": " $2}' >> $XRESC_FILE
+printf "cursor_text_color\t$(cat $COLOR_FILE | grep color13 | cut -f 2)\n" >> $COLOR_FILE
+#| tee -a $COLOR_FILE | awk '{print "*" $1 ": " $2}' >> $XRESC_FILE
 
 kitty @ --to=unix:/tmp/.kitty set-colors --all --configured "$COLOR_FILE"
 xrdb -merge $XRESC_FILE
