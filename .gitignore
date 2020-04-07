@@ -1,6 +1,5 @@
 .vscode/**
 Xresources
-*.png
 
 # Prerequisites
 *.d
