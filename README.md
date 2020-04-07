@@ -1,9 +1,11 @@
 # ANSI-respecting k-means color palette generator
 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/bartlettmic/ansi-theme-engine/master?filepath=demo.ipynb)
+
 This script tries to generate a color palette from an image for use with the ANSI spec in terminal emulators. It uses a biased flavor of the k-means algorithm to find the closest pixels in an image that correspond to hard 3-bit colors but still respects the aesthetic of theimage's colorspace.
 
 ## Usage:
-See [`demo.ipynb`](demo.ipynb) for a visualized explanation of how the color palette is generated.
+See [`demo.ipynb`](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/bartlettmic/ansi-theme-engine/master?filepath=demo.ipynb) for a visualized explanation of how the color palette is generated.
 
 Otherwise, try:
 
