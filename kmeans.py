@@ -50,6 +50,7 @@ centroids = closest_pixel_to_each_ANSI.copy()
 
 for i in range(iterations):
 
+    # centroids = (centroids + ANSI)/2
     closest_cluster_index_per_pixel = np.argmin(
         (
             (
@@ -84,7 +85,9 @@ hsvs = np.array(list(map(lambda c: rgb_to_hsv(*c), centroids)))
 hsvs[:,2]=np.minimum(hsvs[:,2]*1.5, np.repeat(255, hsvs.shape[0]))
 brights=np.array(list(map(lambda c: hsv_to_rgb(*c), hsvs)))
 
-avg_color = pixels.mean(axis=0)
+avg_color = np.array(list(map(int, pixels.mean(axis=0))))
+
+# avg_color = pixels.mean(axis=0)
 
 def luminanace(rgb):
     rgb /= 255
@@ -94,12 +97,11 @@ def luminanace(rgb):
 def contrast(rgb1, rgb2):
     return (luminanace(rgb1)+ 0.05) / (luminanace(rgb2) + 0.05);
 
-# 
-
 palette=np.concatenate([centroids, brights]).clip(0,255)
 cs=[list(map(int,c)) for c in palette]
 print("\n".join(["color%d #%02x%02x%02x" % (i, *c) for i,c in enumerate(cs) ]))
 print("\n".join(["color%d \x1b[48;2;%d;%d;%dm#%02x%02x%02x\x1b[0m" % (i, *c, *c) for i,c in enumerate(cs) ]), file=sys.stderr)
 # print(avg_color, file=sys.stderr)
+print("average \x1b[48;2;%d;%d;%dm#%02x%02x%02x\x1b[0m" % (*avg_color, *avg_color), file=sys.stderr)
 print(contrast(avg_color, centroids[0]), file=sys.stderr)
-print(contrast(avg_color, brights[7]), file=sys.stderr)
+print(contrast(brights[7], avg_color), file=sys.stderr)

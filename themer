@@ -3,8 +3,7 @@
 SCRIPT_DIR="$(dirname $(readlink -f ${BASH_SOURCE}))"
 cd $SCRIPT_DIR
 CURRENT_PAPER="$(grep "file" $HOME/.config/nitrogen/bg-saved.cfg | sed 's/file=//')"
-COLOR_BIN="$HOME/Desktop/kmeans.py"
-# COLOR_BIN="$SCRIPT_DIR/kmeans-colors/kmeans-ansi-palette"
+COLOR_BIN="$SCRIPT_DIR/kmeans.py"
 COLOR_FILE="$HOME/.config/kitty/color.conf"
 XRESC_FILE="$SCRIPT_DIR/Xresources"
 
