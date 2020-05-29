@@ -30,7 +30,7 @@ except:
     iterations = 4
     
 wp=Image.open(wp_path).convert('RGB')
-wp.thumbnail((300, 300), resample=Image.LANCZOS)
+wp.thumbnail((500, 500), resample=Image.LANCZOS)
 pixels=np.array(wp, dtype=int)[:,:,:3]
 pixels=pixels.reshape(pixels.shape[0] * pixels.shape[1], pixels.shape[2])
 
@@ -83,7 +83,27 @@ for i in range(iterations):
 
 hsvs = np.array(list(map(lambda c: rgb_to_hsv(*c), centroids)))
 hsvs[:,2]=np.minimum(hsvs[:,2]*1.5, np.repeat(255, hsvs.shape[0]))
+hsvs[0,2]*=1.5
 brights=np.array(list(map(lambda c: hsv_to_rgb(*c), hsvs)))
+
+try:
+    sys.argv[3]
+    hsvs = np.array(list(map(lambda c: rgb_to_hsv(*c), centroids)))
+    hsv_nonbinary = hsvs[1:-2]
+    hsv_nonbinary[:,2]=np.minimum(hsv_nonbinary[:,2]/1.1, np.repeat(255, hsv_nonbinary.shape[0]))
+    hsv_nonbinary[:,1]=np.minimum(hsv_nonbinary[:,1]*2, np.repeat(255, hsv_nonbinary.shape[0]))
+    light_colors=np.array(list(map(lambda c: hsv_to_rgb(*c), hsvs))).clip(0,255)
+
+    # Swap black and white
+    # light_colors[[0, -1]] = light_colors[[-1, 0]]
+    light_colors[0] = brights[-1]
+    light_colors[-1] = centroids[0]
+    
+    centroids[[0, -1]] = centroids[[-1, 0]]
+    centroids[0] = brights[-1]
+    brights=light_colors
+except:
+    pass
 
 avg_color = np.array(list(map(int, pixels.mean(axis=0))))
 
@@ -103,5 +123,5 @@ print("\n".join(["color%d #%02x%02x%02x" % (i, *c) for i,c in enumerate(cs) ]))
 print("\n".join(["color%d \x1b[48;2;%d;%d;%dm#%02x%02x%02x\x1b[0m" % (i, *c, *c) for i,c in enumerate(cs) ]), file=sys.stderr)
 # print(avg_color, file=sys.stderr)
 print("average \x1b[48;2;%d;%d;%dm#%02x%02x%02x\x1b[0m" % (*avg_color, *avg_color), file=sys.stderr)
-print(contrast(avg_color, centroids[0]), file=sys.stderr)
-print(contrast(brights[7], avg_color), file=sys.stderr)
+# print(contrast(avg_color, centroids[0]), file=sys.stderr)
+# print(contrast(brights[7], avg_color), file=sys.stderr)

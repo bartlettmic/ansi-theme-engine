@@ -8,7 +8,7 @@ COLOR_FILE="$HOME/.config/kitty/color.conf"
 XRESC_FILE="$SCRIPT_DIR/Xresources"
 
 
-$COLOR_BIN "$CURRENT_PAPER" $1 > "$COLOR_FILE"
+$COLOR_BIN "$CURRENT_PAPER" $* > "$COLOR_FILE"
 cat $COLOR_FILE | grep color | awk '{print "*" $1 ": " $2}' > $XRESC_FILE
     
 printf "foreground\t$(cat $COLOR_FILE | grep color15 | cut -d' ' -f 2)\n" | tee -a $COLOR_FILE | awk '{print "*" $1 ": " $2}' >> $XRESC_FILE
